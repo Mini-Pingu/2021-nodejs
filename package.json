@@ -2,13 +2,14 @@
   "name": "nodejs",
   "version": "1.0.0",
   "description": "2021年 => 2,3 月 => 開始深入學習 node.js",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./app.js"
   },
   "keywords": [
     "node"
   ],
-  "author": "",
+  "author": "chris chan",
   "license": "ISC"
 }
