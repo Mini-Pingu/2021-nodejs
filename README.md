@@ -28,7 +28,8 @@
    5. ***Jquery***
    6. ***Javascript OOP*** (Mosh 課程)
    7. ***Webpack, 和 glup***
-   8. 這個表之後想到，看到了要繼續增加。
+   8. ***notify***
+   9. 這個表之後想到，看到了要繼續增加。
 
 5. 要求
 
@@ -70,6 +71,8 @@
 1. 後端的終極目的是提供 API。
 2. 如果應用的 I/O 是讀寫很頻繁的，就用 Node
 3. 如果應用是要多線程 CPU 進行的，就不要用 Node
+
+
 
 ## Node Module System
 
@@ -123,6 +126,8 @@
 5. ***Mosh 的教學比較舊，有些地方最好跟 ES6 Module 來寫比較好***
 6. 無事做就看 [Node 的 API 文檔](https://nodejs.org/dist/latest-v14.x/docs/api/)，深入了解
 7. 因爲 `Node.js` 系單線程環境，所以 method 最好用 `async` 的類型，而不要 `sync`，否則同 `Node.js` 的初衷相違背，而且當服務器 CPU 內核不夠用時，會卡死。（我個人想法，不知道是不是。。。）
+
+
 
 ## Node Package Manager (NPM)
 
@@ -253,4 +258,61 @@
        $ npm publish
        ```
 
-       
+
+
+## Building RESTful API's Using Express
+
+### 2021-02-24
+
+#### 筆記
+
+1. 使用 https 會比 http 更安全
+2. 使用 `nodemon` 來實時運行變化中的文件
+
+#### 重點
+
+1. 設計 `URL` 要有的元素
+
+   http://vidly.com/v1/api/customers 
+
+   1. v1: 版本號
+   2. api: url 類型
+   3. customers: 與什麼有關
+
+2. 不要 Delete 任何數據，只要用 visible 來控制是否顯示就好了
+
+3. node 可以讀取環境變量
+
+   ```shell
+   $ export PORT=5000 # 定義環境變量 PORT 數值爲 5000
+   ```
+
+   ```javascript
+   const port = process.env.PORT || 3000 // 如果環境變量有 PORT 的定義就用 PORT，沒有就用 3000
+   ```
+
+4. express 讀取 uri 參數方法
+
+   ```javascript
+   app.get("/api/courses/:year/:month", (req, res) => {
+     console.log(req.params);
+     console.log(req.query);
+     res.send(req.params);
+   });
+   ```
+
+   uri 是 `htttp://localhost:3000/api/courses/2019/1?sortBy=123`
+
+   `console.log` 出來的是
+
+   ```json
+   {
+   	"year": "2019",
+       "month": "1"
+   }
+   {
+       "sortBy": "123"
+   }
+   ```
+
+   

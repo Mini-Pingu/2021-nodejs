@@ -13,6 +13,7 @@
   "author": "chris chan",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "mongoose": "^5.11.18",
     "underscore": "^1.12.0"
   },
