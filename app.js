@@ -1,17 +1,9 @@
-import { createServer } from "http";
+import _ from "underscore";
 
-const server = createServer((req, res) => {
-  if (req.url === "/") {
-    res.write("/");
-    res.end();
-  }
+console.log(
+  _.map([1, 2, 3], function (num) {
+    return num * 3;
+  })
+);
 
-  if (req.url === "/api/courses") {
-    res.write(JSON.stringify({ id: 1 }));
-    res.end();
-  }
-});
-
-server.listen(3000);
-
-console.log("Listening on port 3000...");
+console.log(_.contains([1, 2, 3], 3));

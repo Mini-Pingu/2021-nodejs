@@ -11,6 +11,7 @@
 
    1. 要以進全力理解爲主，進度不是最重要。
    2. 一定要仔細，仔細，再仔細。
+   3. 主要是查漏補缺，看看有哪些內容是自己之前不明白和理解的。在經過 coffeeMachine 項目之後，能更好的理解。
 
 3. 階段
 
@@ -42,7 +43,15 @@
    3. 數據庫 `SQL` 
    4. `API` 設計
 
-## Getting Started
+8. 有用 website
+
+   1. [npmtrends](https://www.npmtrends.com/Getting)：用來查看那些 module 多人用，好用
+
+9. 需要熟悉的 npm 庫
+
+   1. underscore
+   2. lodash
+   3. node 內核庫
 
 ### 2021-02-23
 
@@ -115,3 +124,25 @@
 6. 無事做就看 [Node 的 API 文檔](https://nodejs.org/dist/latest-v14.x/docs/api/)，深入了解
 7. 因爲 `Node.js` 系單線程環境，所以 method 最好用 `async` 的類型，而不要 `sync`，否則同 `Node.js` 的初衷相違背，而且當服務器 CPU 內核不夠用時，會卡死。（我個人想法，不知道是不是。。。）
 
+## Node Package Manager (NPM)
+
+### 2021-02-24
+
+#### 筆記
+
+1. 快速建立 meta data for node project
+
+   ```shell
+   $ npm init --yes
+   ```
+
+2. 安裝 module 方法
+
+   ```shell
+   $ npm i underscore
+   ```
+
+#### 重點
+
+1. 只可以使用 ***nvm*** 對 node 版本進行變更
+2. 要熟悉各種常用，好用的 npm 庫，具體看 ***9. 需要熟悉的 npm 庫***

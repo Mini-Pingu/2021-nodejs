@@ -11,5 +11,9 @@
     "node"
   ],
   "author": "chris chan",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.11.18",
+    "underscore": "^1.12.0"
+  }
 }
