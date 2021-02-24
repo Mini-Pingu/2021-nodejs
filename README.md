@@ -142,7 +142,115 @@
    $ npm i underscore
    ```
 
+3. 只可以使用 ***nvm*** 對 node 版本進行變更
+
 #### 重點
 
-1. 只可以使用 ***nvm*** 對 node 版本進行變更
-2. 要熟悉各種常用，好用的 npm 庫，具體看 ***9. 需要熟悉的 npm 庫***
+1. 要熟悉各種常用，好用的 npm 庫，具體看 ***9. 需要熟悉的 npm 庫***
+
+2. Semantic Versioning: (SemVer)
+
+   Major(upgrade with breaking api).Minor(new feature without breaking api).Patch(Bug) => 4.13.6
+
+3. `Package.json`:
+
+   ```json
+   "dependencies": {
+   	"abc": "^4.13.6", // 有任何 4.x 以內的更新，都跟上
+       "xyz": "~1.8.3", // 有任何 1.8.x 以內的更新，都跟上
+       "qwerty": "2.5.7" // 只更新 2.5.7 
+   }
+   ```
+
+4. 查看現有所有安裝了的 npm 庫
+
+   ```shell
+   $ npm list --depth=0 # 舊有辦法，可詳細看到第0層
+   $ npm list # 新辦法，只看到第0層
+   $ ncu # 使用 npm-check-updates 來查看也是可以的
+   ```
+
+5. 查看單個 npm 庫
+
+   ```shell
+   $ npm view mongoose
+   ```
+
+6. 查看單個 npm 庫以往的 版本號
+
+   ```shell
+   $ npm view mongoose versions
+   ```
+
+7. 安裝某個版本的 npm 庫
+
+   ```shell
+   $ npm i mongoose@2.4.2
+   ```
+
+8. 查看過期 npm 庫
+
+   ```shell
+   $ npm outdated
+   ```
+
+9. 進行 minor 版本更新
+
+   ```shell
+   $ npm update
+   ```
+
+10. 使用 ***npm-check-updates*** 庫來進行版本管理
+
+    ```shell
+    $ ncu -u && npm install # 直接更新到 major-minor-patch 都是最新的版本
+    ```
+
+11. 安裝 庫 到 development 階段
+
+    ```shell
+    $ npm i jshint --save-dev
+    ```
+
+    結果
+
+    ```json
+    "dependencies": {
+      "mongoose": "^5.11.18",
+      "underscore": "^1.12.0"
+    },
+    "devDependencies": {
+      "jshint": "^2.12.0"
+    }
+    ```
+
+12. 卸載 npm 庫
+
+    ```shell
+    $ npm un mongoose
+    ```
+
+13. ***自建 npm 庫***
+
+    1. 登錄 
+
+       ```shell
+       $ npm login
+       ```
+
+    2. 創建 npm 項目
+
+    3. 發布
+
+       ```shell
+       $ npm publish
+       ```
+
+    4. 如有更新，需要先更新 major, minor, patch 版本之後才能 publish
+
+       ```shell
+       $ npm version major # minor / patch
+       $ npm publish
+       ```
+
+       
