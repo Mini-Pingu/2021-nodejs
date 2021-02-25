@@ -271,6 +271,7 @@
 
 1. 使用 https 會比 http 更安全
 2. 使用 `nodemon` 來實時運行變化中的文件
+3. 無論什麼事情，都要驗證用戶的輸入
 
 #### 重點
 
@@ -318,6 +319,42 @@
    }
    ```
 
+## Express- Advanced Topics
 
-### 
+### 2021-02-25
 
+#### 筆記
+
+1. 中間件就是處理 請求的一些函數 的集合
+
+2. 中間件結構
+
+   ```javascript
+   app.use((req, res, next) => {
+     console.log("Logging..."); // 其他代碼
+     next(); // next() 一定要有，不然會卡死
+   });
+   ```
+
+3. 中間件是按照順序來執行的
+
+#### 重點
+
+1. [看清楚 express 全部的中間件](http://expressjs.com/en/resources/middleware.html)
+
+2. 中間件不需要一直開着，可以在某些情況下才開，不然會影響服務器效能
+
+3. 通過設置環境變量 `NODE_ENV` 來決定中間件，或者其他功能是否使用
+
+   ```shell
+   $ export NODE_ENV=production
+   ```
+
+   可以使用以下方式來獲取環境變量的值
+
+   ```javascript
+   console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+   console.log(`app: ${app.get("env")}`); // app.get("env") 默認是 development
+   ```
+
+   
