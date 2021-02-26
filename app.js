@@ -1,51 +1,33 @@
-// 配置文件設定
-import config from "config";
+import mongoose from "mongoose";
 
-// 日志設定
-import Debug from "debug";
-const debug = Debug("debug");
+mongoose
+  .connect("mongodb://localhost/playground", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((error) => console.error("Could not connect to MongoDb...", error));
 
-// 服務器設定
-import express from "express";
-import helmet from "helmet";
-import morgan from "morgan";
+const courseSchema = new mongoose.Schema({
+  name: String,
+  author: String,
+  tags: [String],
+  date: { type: Date, default: Date.now },
+  isPublished: Boolean,
+});
 
-// 個人中間件設定
-import logger from "./src/middleware/logger.js";
-import authenticatior from "./src/middleware/authenticator.js";
+const Course = mongoose.model("Course", courseSchema);
 
-// 路由設定
-import home from "./src/routes/home.js";
-import courses from "./src/routes/courses.js";
+async function createCourse() {
+  const course = new Course({
+    name: "Node",
+    author: "Chris",
+    tags: ["node", "js"],
+    isPublished: true,
+  });
 
-const app = express();
-
-// 模板引擎設定
-app.set("view engine", "pug");
-app.set("views", "./src/views");
-
-// 選擇使用哪些 express 預設的中間件
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(helmet());
-
-// 根據環境變量來，選擇使用哪些中間件
-if (app.get("env") === "development") {
-  debug("Mongan enabled...");
-  app.use(morgan("tiny"));
+  const result = await course.save();
+  console.log(result);
 }
 
-// 選擇使用哪些自己設計的中間件
-app.use(logger);
-app.use(authenticatior);
-
-// 選擇引入哪些自己設計的路由
-app.use("/", home);
-app.use("/api/courses", courses);
-
-// 啓動後端服務
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  debug(`Listen on port ${port}...`);
-});
+createCourse();

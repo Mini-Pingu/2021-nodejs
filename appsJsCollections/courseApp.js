@@ -1,88 +1,51 @@
-import express from "express";
+// 配置文件設定
+import config from "config";
 
-import Joi from "joi";
+// 日志設定
+import Debug from "debug";
+const debug = Debug("debug");
+
+// 服務器設定
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
+
+// 個人中間件設定
+import logger from "./src/middleware/logger.js";
+import authenticatior from "./src/middleware/authenticator.js";
+
+// 路由設定
+import home from "./src/routes/home.js";
+import courses from "./src/routes/courses.js";
 
 const app = express();
 
-app.use(express.json()); // 中間件: 爲了將傳入的 ctx 轉爲 json 格式
+// 模板引擎設定
+app.set("view engine", "pug");
+app.set("views", "./src/views");
 
-const courses = [
-  {
-    id: 1,
-    name: "course1",
-  },
-  {
-    id: 2,
-    name: "course2",
-  },
-  {
-    id: 3,
-    name: "course3",
-  },
-];
+// 選擇使用哪些 express 預設的中間件
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(helmet());
 
-app.get("/", (req, res) => {
-  res.send("The Courses");
-});
-
-app.get("/api/courses", (req, res) => {
-  res.send(courses);
-});
-
-app.get("/api/courses/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
-  if (!course)
-    return res.status(404).send("The course with given ID was not found.");
-  res.send(course);
-});
-
-app.post("/api/courses", (req, res) => {
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-  });
-
-  const { error } = validateCourse(req.body);
-  if (error) return res.status(400).send(result.error.details[0].message);
-
-  const course = {
-    id: courses.length + 1,
-    name: req.body.name,
-  };
-  courses.push(course);
-  res.send(course);
-});
-
-app.put("/api/courses/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
-  if (!course)
-    return res.status(404).send("The course with given ID was not found.");
-
-  const { error } = validateCourse(req.body);
-  if (error) return res.status(400).send(result.error.details[0].message);
-
-  course.name = req.body.name;
-  res.send(course);
-});
-
-app.delete("/api/courses/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
-  if (!course)
-    return res.status(404).send("The course with given ID was not found.");
-
-  const index = courses.indexOf(course);
-  courses.splice(index, 1);
-
-  res.send(course);
-});
-
-function validateCourse(course) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-  });
-  return schema.validate(course);
+// 根據環境變量來，選擇使用哪些中間件
+if (app.get("env") === "development") {
+  debug("Mongan enabled...");
+  app.use(morgan("tiny"));
 }
 
+// 選擇使用哪些自己設計的中間件
+app.use(logger);
+app.use(authenticatior);
+
+// 選擇引入哪些自己設計的路由
+app.use("/", home);
+app.use("/api/courses", courses);
+
+// 啓動後端服務
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Listen on port ${port}...`);
+  debug(`Listen on port ${port}...`);
 });

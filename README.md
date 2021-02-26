@@ -457,3 +457,16 @@
 
    
 
+跳過 **Asynchronous JavaScript**，因爲已經知道 async / await 的基本用法了。（而且這部分是重新復習的，所以跳過了）
+
+
+
+## CRUD Operations Using Mongoose
+
+### 2021-02-26
+
+#### 筆記
+
+#### 重點
+
+1. 記得用 `debug` 來打 Log，不要用 `console.log()` 。不然難以處理。
