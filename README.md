@@ -17,6 +17,8 @@
 
    分爲兩階段：第一個是 Mosh，第二個是 Jomy King。
 
+   臨時添加的有 [NodeJS全栈爬虫项目【JavaScript全栈入门教程8】](https://www.youtube.com/watch?v=J930kaD40qs&t=728s)
+
    預計用時是 ***一個月***，於 3月底之前（過期也沒有關系，只不過時間要花在這裏，不能花在其他地方了），可以獨立開發後端服務器給之後搭建的 ***React, React Native, 和 Electron*** 使用。
 
 4. 預計完成 Node.js 課程後，可以繼續學習後端的知識想到的有：
