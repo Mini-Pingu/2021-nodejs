@@ -1,23 +1,34 @@
+import config from "config";
+
+import Debug from "debug";
+const startDebugger = Debug("app:startup");
+const testDebugger = Debug("app:test");
+
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+
 import Joi from "joi";
+
 import logger from "./src/middleware/logger.js";
 import authenticatior from "./src/middleware/authenticator.js";
 
 const app = express();
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
-console.log(`app: ${app.get("env")}`);
+app.set("view engine", "pug");
+app.set("views", "./src/views");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(helmet());
+
 if (app.get("env") === "development") {
-  console.log("Morgan enabled...");
+  startDebugger("Mongan enabled...");
   app.use(morgan("tiny"));
 }
+
+testDebugger("Testing testDebugger...");
 
 app.use(logger);
 app.use(authenticatior);
@@ -38,7 +49,8 @@ const courses = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("The Courses");
+  res.render("index", { title: "Courses", message: "The Courses" });
+  // res.send("The Courses");
 });
 
 app.get("/api/courses", (req, res) => {
@@ -100,5 +112,5 @@ function validateCourse(course) {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Listen on port ${port}...`);
+  startDebugger(`Listen on port ${port}...`);
 });

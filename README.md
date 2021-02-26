@@ -39,6 +39,7 @@
 
    1. `nodemon`
    2. `joi` : 字符串格式驗證
+   3. `config`：配置設定
 
 7. 目的
 
@@ -321,7 +322,7 @@
 
 ## Express- Advanced Topics
 
-### 2021-02-25
+### 2021-02-25 && 26
 
 #### 筆記
 
@@ -357,4 +358,100 @@
    console.log(`app: ${app.get("env")}`); // app.get("env") 默認是 development
    ```
 
+4. 使用 `config` 庫來設定需要變化的配置
+
+   創建 `config` 文件夾，並在裏邊創建以下文件
+
+   ```
+   ├── custom-environment-variables.json <- 存儲環境變量的保密信息
+   ├── default.json <- 預設
+   ├── development.json <- 根據 export NODE_ENV=development 來執行的 json
+   └── production.json <- 根據 export NODE_ENV=production 來執行的 json
+   ```
+
+   創建環境變量方式
+
+   ```shell
+   $ export NODE_ENV=production
+   $ export password=1234 # 設定密碼
+   ```
+
+   具體 json 文件格式
+
+   ```json
+   {
+     "name": "mmm",
+     "mail": {
+       "host": "dev-mail-server"
+     }
+   }
+   ```
+
+   在項目中引用方式
+
+   ```javascript'
+   import config from "config"
+   config.get("mail.host")
+   ```
+
+5. 使用 `debug` 庫來打 log
+
+   使用 `import from` 方式引用 debug 庫
+
+   ```javascript
+   import Debug from "debug";
+   const startDebugger = Debug("app:startup")
+   ```
+
+   `app.js` 中打 log 方式
+
+   ```javascript
+   startDebugger("logging...")
+   ```
+
+6. 設定使用環境變量的方式
+
+   ```shell
+   # 方法一
+   $ DEBUG=app:* NODE_ENV=production nodemon ./app.js
+   # app:* 開啓全部 app 的 Logger
+   # app:startup 只開啓 app:startup 的 Logger
    
+   # 方法二
+   $ export DEBUG=app:*
+   $ export NODE_ENV=production
+   
+   # 總結
+   # 方法一 通用方法
+   # 方法二 用來設定一些密碼
+   ```
+
+7. 可以使用 template engine 來 render 頁面，這樣子就可以不用前端 React 了。頁面也是由後端提供。
+
+   安裝 `pug` 庫
+
+   設定 `view engine`
+
+   ```javascript
+   app.set("view engine", "pug");
+   app.set("views", "./src/views")
+   ```
+
+   `pug` 文件結構
+
+   ```pug
+   html 
+     head
+       title=title
+     body 
+       h1=message
+   ```
+
+   渲染 `pug` 文件
+
+   ```javascript
+   res.render("index", { title: "pug title", message: "pug message" });
+   ```
+
+   
+
